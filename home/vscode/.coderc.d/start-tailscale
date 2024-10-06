@@ -1,0 +1,5 @@
+#!/bin/sh
+screen -d -m tailscaled \
+        --tun=userspace-networking \
+        --socks5-server=localhost:3215 \
+        --outbound-http-proxy-listen=localhost:3214

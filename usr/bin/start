@@ -1,0 +1,32 @@
+#!/bin/bash
+
+DEFAULT_SSHPORT=8081
+OVERRIDE_FILE="/home/vscode/.codeconfig"
+
+if [[ -f "$OVERRIDE_FILE" ]]; then
+    source "$OVERRIDE_FILE"
+fi
+
+SSHPORT="${SSHPORT:-$DEFAULT_SSHPORT}"
+
+if [ -f /usr/bin/dropbearkey ]; then
+
+    if [ ! -f /support/.ssh_setup_complete ]; then
+        rm -rf /etc/dropbear
+        mkdir /etc/dropbear
+        dropbearkey -t dss -s 1024 -f /etc/dropbear/dropbear_dss_host_key
+        dropbearkey -t rsa -s 2048 -f /etc/dropbear/dropbear_rsa_host_key
+        dropbearkey -t ecdsa -s 521 -f /etc/dropbear/dropbear_ecdsa_host_key
+        touch /support/.ssh_setup_complete
+    fi
+
+    dropbear -E -p $SSHPORT
+fi
+
+if [[ "$CUSTOM_SCRIPTS" -eq 1 ]]; then
+
+    for file in /home/vscode/.coderc.d/*; do
+        source $file
+    done
+
+fi

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+DEFAULT_INTERFACE=0.0.0.0
+OVERRIDE_FILE="/home/vscode/.codeconfig"
+
+if [[ -f "$OVERRIDE_FILE" ]]; then
+    source "$OVERRIDE_FILE"
+fi
+
+INTERFACE="${INTERFACE:-$DEFAULT_INTERFACE}"
+
+sudo code --auth none \
+    --disable-telemetry \
+    --disable-update-check \
+    --disable-getting-started-override \
+    --bind-addr $INTERFACE:8080
+
