@@ -11,9 +11,10 @@ Installation instructions
 -------------------------
 
 ```bash
+$ su - vscode
 $ git clone https://github.com/gbraad-devenv/vscode-android ~/.dotcode
 $ cp -r ~/.dotcode/* /
-$ apt-get install screen tmux zsh vim
+$ sudo apt-get install screen tmux zsh vim
 $ curl -fsSL https://tailscale.com/install.sh | sh
 ```
 
